@@ -16,7 +16,8 @@
     "koa-router": "^7.0.1",
     "koa-session": "^3.3.1",
     "koa-static": "^3.0.0",
-    "koa-websocket": "git+https://github.com/jethrokuan/koa-websocket.git",
+    "koa-websocket": "git+https://github.com/jethrokuan/koa-websocket#next",
+    "mongodb": "^2.2.22",
     "mongoose": "^4.8.1",
     "sharedb": "^1.0.0-beta.7",
     "sharedb-mongo": "^1.0.0-beta.3",
@@ -26,9 +27,11 @@
     "babel-cli": "^6.11.4",
     "babel-eslint": "^6.1.2",
     "eslint": "^3.3.1",
-    "eslint-config-airbnb-base": "^5.0.2"
+    "eslint-config-airbnb-base": "^5.0.2",
+    "nodemon": "^1.11.0"
   },
   "scripts": {
+    "dev": "nodemon --exec babel-node ./bin/run",
     "start": "babel-node ./bin/run"
   }
 }

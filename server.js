@@ -8,7 +8,9 @@ import cors from 'kcors';
 import session from 'koa-session';
 import convert from 'koa-convert';
 import serve from 'koa-static';
-import finalHandler from './lib/middlewares/finalHandler';
+// import finalHandler from './lib/middlewares/finalHandler';
+
+import websocketRoutes from './router/websocket';
 
 import * as routes from './router/';
 
@@ -18,6 +20,7 @@ import { share } from './db';
 const app = websockify(new Koa(), {
   onConnection: (socket) => {
     const stream = new WebSocketJSONStream(socket);
+    console.log(stream);
     share.listen(stream);
   },
 });
@@ -26,7 +29,7 @@ app.use(cors());
 
 app.use(json({ pretty: false, param: 'pretty' }));
 
-app.use(finalHandler());
+// app.use(finalHandler());
 
 app.use(logger());
 app.use(bodyParser());
@@ -39,5 +42,8 @@ Object.values(routes).forEach((route) => {
   app.use(route.routes())
     .use(route.allowedMethods());
 });
+
+app.ws.use(websocketRoutes.routes())
+  .use(websocketRoutes.allowedMethods());
 
 export default app;
