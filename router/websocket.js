@@ -5,10 +5,9 @@ import WebSocketJSONStream from 'websocket-json-stream';
 const router = new Router();
 
 router.get('/ws', async (ctx) => {
-  ctx.websocket.on('connection', function(ws, req){
-    const stream = new WebSocketJSONStream(ws);
-    share.listen(stream);
-  });
+  console.log("connection success");
+
+  // Do other websocket stuff here
 });
 
 export default router;

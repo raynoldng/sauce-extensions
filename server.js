@@ -20,7 +20,6 @@ import { share } from './db';
 const app = websockify(new Koa(), {
   onConnection: (socket) => {
     const stream = new WebSocketJSONStream(socket);
-    console.log(stream);
     share.listen(stream);
   },
 });
