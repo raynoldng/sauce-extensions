@@ -1,38 +1,42 @@
 import Router from 'koa-router';
-import Gist from '../models/gist';
+import share from '../db';
+import uuid from 'uuid/v1';
 
 const router = new Router();
 
-// Gists
-router.get('/gists', async (ctx) => {
-  await Gist.find({}, (err, gists) => {
-    if (err) throw err;
-    ctx.body = {
-      gists,
-    };
-  });
-});
+let latest = null;
 
-router.post('/gists/new', async (ctx, next) => {
-  try {
-    const gist = new Gist({});
-    await gist.save();
-    const id = gist._id;
-    const gistId = gist.gistId;
-    ctx.body = {
-      id,
-      gistId
-    };
-  } catch (e) {
-    next(e);
-  }
+async function newGist() {
+  const id = uuid();
+  const conn = share.connect();
+  const doc = conn.get('codepad', id);
+  await new Promise( (resolve, reject) => {
+    doc.create({
+      "code": "function() {hello;}",
+      "testcases": "hellotest"
+    }, function(err) {
+      if (err) reject(err);
+      latest = id;
+      resolve();
+    }); 
+  });
+
+  return id;
+}
+
+// For testing only
+newGist();
+
+// Gists
+router.post('/gists/new', async (ctx) => {
+  const id = await newGist();
+  ctx.body = {
+    id,
+  }; 
 });
 
 router.get('/gists/latest', async (ctx) => {
-  await Gist.findOne().sort({ field: 'asc', _id: -1 }).exec( (err, gist) => {
-    if (err) throw err;
-    ctx.body = gist;
-  });
+  ctx.body = {id: latest};
 });
 
 export default router;

@@ -15,7 +15,7 @@ import websocketRoutes from './router/websocket';
 import * as routes from './router/';
 
 // DB
-import { share } from './db';
+import share from './db';
 
 const app = websockify(new Koa(), {
   onConnection: (socket) => {
