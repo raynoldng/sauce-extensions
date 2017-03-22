@@ -1,3 +1,8 @@
 import ShareDB from 'sharedb';
+import ShareDBRedis from 'sharedb-redis-pubsub';
 
-export default new ShareDB();
+const share = new ShareDB({
+  pubsub: new ShareDBRedis("redis://localhost:6379/3"),
+});
+
+export default share;
