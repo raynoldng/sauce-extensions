@@ -1,4 +1,5 @@
 import SharedbAceRWControl from 'sharedb-ace-rw-control/server';
+import SharedbAceMultipleCursors from 'sharedb-ace-multiple-cursors/server';
 import Router from 'koa-router';
 const router = new Router();
 
@@ -15,6 +16,9 @@ router.get('/ws', async (ctx) => {
 
   const rw = SharedbAceRWControl(REDIS_URL);
   rw(ctx);
+
+  const mc = SharedbAceMultipleCursors(REDIS_URL);
+  mc(ctx);
 });
 
 export default router;
