@@ -17,7 +17,10 @@
     "koa-session": "^3.3.1",
     "koa-static": "^3.0.0",
     "koa-websocket": "next",
-    "redis": "^2.7.1"
+    "redis": "^2.7.1",
+    "sharedb-ace-multiple-cursors": "^1.0.0",
+    "sharedb-ace-rw-control": "^0.0.2"
+    
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
